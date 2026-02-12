@@ -4,7 +4,7 @@ import { generateXLSX } from "@/lib/export/xlsx-exporter";
 
 export async function GET(
   _req: Request,
-  { params }: { params: Promise<{ sessionId: string }> }
+  { params }: { params: Promise<{ sessionId: string }> },
 ) {
   const { sessionId } = await params;
 
@@ -42,19 +42,28 @@ export async function GET(
     { grade: "E", min: 0, max: 49 },
   ];
 
-  const gradingScale = (session.settings?.gradingScale as Array<{ grade: string; min: number; max: number }> | null) || DEFAULT_GRADING_SCALE;
+  // Type assertion to handle Json field until Prisma types are regenerated
+  const gradingScale =
+    ((session.settings as any)?.gradingScale as Array<{
+      grade: string;
+      min: number;
+      max: number;
+    }> | null) || DEFAULT_GRADING_SCALE;
 
   // Helper to get letter grade
   const getLetterGrade = (percentage: number | null): string => {
     if (percentage === null) return "-";
     const scale = gradingScale.find(
-      (s) => percentage >= s.min && percentage <= s.max
+      (s) => percentage >= s.min && percentage <= s.max,
     );
     return scale?.grade || gradingScale[gradingScale.length - 1].grade;
   };
 
   // Helper to convert to scale 100
-  const convertToScale100 = (totalScore: number | null, maxScore: number | null): number | null => {
+  const convertToScale100 = (
+    totalScore: number | null,
+    maxScore: number | null,
+  ): number | null => {
     if (totalScore === null || maxScore === null || maxScore === 0) return null;
     return Math.round((totalScore / maxScore) * 100 * 10) / 10;
   };
@@ -70,9 +79,8 @@ export async function GET(
     scale100: convertToScale100(sub.totalScore, sub.maxScore),
     letterGrade: getLetterGrade(sub.percentage),
     status: sub.status,
-    aiDetectionFlags: sub.answers.filter(
-      (a) => a.aiDetection?.isAIGenerated
-    ).length,
+    aiDetectionFlags: sub.answers.filter((a) => a.aiDetection?.isAIGenerated)
+      .length,
     gradedAt: sub.gradedAt?.toISOString() ?? null,
     questionScores: sub.answers.map((ans) => ({
       questionNumber: ans.question.questionNumber,
@@ -85,13 +93,19 @@ export async function GET(
   const buffer = await generateXLSX(rows, questionCount, session.name);
 
   // Sanitize filename and encode properly for international characters
-  const sanitizedName = session.name.replace(/[^a-zA-Z0-9\s\-_]/g, "").substring(0, 100);
+  const sanitizedName = session.name
+    .replace(/[^a-zA-Z0-9\s\-_]/g, "")
+    .substring(0, 100);
   const filename = `${sanitizedName || "session"}_results.xlsx`;
   const encodedFilename = encodeURIComponent(filename);
 
-  return new NextResponse(buffer, {
+  // Convert Buffer to Uint8Array for NextResponse compatibility
+  const uint8Array = new Uint8Array(buffer);
+
+  return new NextResponse(uint8Array, {
     headers: {
-      "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "Content-Type":
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       // Use RFC 5987 encoding for proper Unicode support
       "Content-Disposition": `attachment; filename="${filename}"; filename*=UTF-8''${encodedFilename}`,
     },
