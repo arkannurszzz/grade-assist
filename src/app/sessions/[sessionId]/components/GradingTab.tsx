@@ -97,13 +97,20 @@ export function GradingTab({
             </p>
           ) : isGrading ? (
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                  <span className="font-medium text-lg">Sedang menilai...</span>
+                  <span className="font-medium text-base sm:text-lg">
+                    Sedang menilai...
+                  </span>
                 </div>
                 {onResetGrading && (
-                  <Button variant="outline" size="sm" onClick={onResetGrading}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onResetGrading}
+                    className="w-full sm:w-auto"
+                  >
                     <RefreshCw className="mr-2 h-4 w-4" />
                     Reset Status
                   </Button>
@@ -113,16 +120,19 @@ export function GradingTab({
                 <div className="space-y-3">
                   {/* Progress Bar with Percentage */}
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="font-medium">
+                    <div className="flex items-center justify-between text-xs sm:text-sm gap-2">
+                      <span className="font-medium truncate">
                         Progress: {gradingProgress.gradedSubmissions} /{" "}
                         {gradingProgress.totalSubmissions} mahasiswa
                       </span>
-                      <span className="font-bold text-primary">
+                      <span className="font-bold text-primary shrink-0">
                         {Math.round(gradingProgress.progress)}%
                       </span>
                     </div>
-                    <Progress value={gradingProgress.progress} className="h-3" />
+                    <Progress
+                      value={gradingProgress.progress}
+                      className="h-3"
+                    />
                   </div>
 
                   {/* Current Student Being Graded */}
@@ -144,7 +154,7 @@ export function GradingTab({
 
                   {/* Estimated Time Remaining */}
                   {gradingProgress.gradedSubmissions > 0 && (
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0 text-xs sm:text-sm text-muted-foreground">
                       <span>Estimasi waktu tersisa:</span>
                       <span className="font-medium">
                         {(() => {
@@ -186,7 +196,7 @@ export function GradingTab({
           ) : (
             <div className="space-y-4">
               <div className="space-y-3">
-                <div className="rounded-md bg-muted p-4 text-sm">
+                <div className="rounded-md bg-muted p-3 sm:p-4 text-xs sm:text-sm space-y-1">
                   <p>
                     <strong>Soal:</strong> {session.answerKey.questions.length}{" "}
                     soal
@@ -257,15 +267,15 @@ export function GradingTab({
           <CardHeader>
             <div className="flex flex-col gap-4">
               <div>
-                <CardTitle>
-                  Hasil Penilaian
+                <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                  <span>Hasil Penilaian</span>
                   {filteredResults.length !== gradedSubmissions.length && (
-                    <span className="ml-2 text-sm text-primary font-normal">
+                    <span className="text-xs sm:text-sm text-primary font-normal">
                       ({filteredResults.length} dari {gradedSubmissions.length})
                     </span>
                   )}
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-xs sm:text-sm">
                   Ringkasan hasil penilaian mahasiswa
                 </CardDescription>
               </div>
@@ -304,21 +314,23 @@ export function GradingTab({
                   <Link
                     key={sub.id}
                     href={`/sessions/${sessionId}/students/${sub.id}`}
-                    className="flex items-center justify-between rounded-md border px-4 py-3 transition-colors hover:bg-muted/50"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-md border px-3 sm:px-4 py-3 transition-colors hover:bg-muted/50"
                   >
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm font-medium text-muted-foreground w-6">
+                    <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                      <span className="text-xs sm:text-sm font-medium text-muted-foreground w-5 sm:w-6 shrink-0">
                         {idx + 1}
                       </span>
-                      <div>
-                        <p className="font-medium">{sub.studentName}</p>
-                        <p className="text-xs text-muted-foreground">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm sm:text-base truncate">
+                          {sub.studentName}
+                        </p>
+                        <p className="text-[10px] sm:text-xs text-muted-foreground truncate">
                           {sub.fileName}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm">
+                    <div className="flex items-center gap-2 sm:gap-3 justify-between sm:justify-end shrink-0">
+                      <span className="text-xs sm:text-sm">
                         {sub.totalScore?.toFixed(1)} /{" "}
                         {sub.maxScore?.toFixed(1)}
                       </span>
@@ -330,6 +342,7 @@ export function GradingTab({
                               ? "secondary"
                               : "destructive"
                         }
+                        className="text-xs sm:text-sm px-2 sm:px-2.5"
                       >
                         {sub.percentage?.toFixed(1)}%
                       </Badge>
@@ -340,19 +353,46 @@ export function GradingTab({
             )}
 
             {filteredResults.length > 0 && (
-              <div className="flex gap-3">
-                <Link href={`/sessions/${sessionId}/results`}>
-                  <Button variant="outline">Lihat Detail Lengkap</Button>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 overflow-x-auto">
+                <Link
+                  href={`/sessions/${sessionId}/results`}
+                  className="w-full sm:w-auto"
+                >
+                  <Button
+                    variant="outline"
+                    className="w-full sm:w-auto"
+                    size="sm"
+                  >
+                    Lihat Detail Lengkap
+                  </Button>
                 </Link>
                 <Button
                   variant="outline"
+                  size="sm"
+                  className="w-full sm:w-auto"
                   onClick={() => {
-                    window.open(`/api/sessions/${sessionId}/export-xlsx`, "_blank");
+                    window.open(
+                      `/api/sessions/${sessionId}/export-xlsx`,
+                      "_blank",
+                    );
                   }}
                 >
-                  <Download className="mr-2 h-4 w-4" />
-                  Export Excel
+                  <Download className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="text-xs sm:text-sm">Quick Export</span>
                 </Button>
+                <Link
+                  href={`/sessions/${sessionId}/export-customize`}
+                  className="w-full sm:w-auto"
+                >
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full sm:w-auto"
+                  >
+                    <Download className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="text-xs sm:text-sm">Customize Export</span>
+                  </Button>
+                </Link>
               </div>
             )}
           </CardContent>

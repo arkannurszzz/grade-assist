@@ -17,9 +17,10 @@ model GradingSession {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  answerKey   AnswerKey?
-  submissions Submission[]
-  settings    SessionSettings?
+  answerKey       AnswerKey?
+  submissions     Submission[]
+  settings        SessionSettings?
+  exportTemplates ExportTemplate[]
 }
 
 model AnswerKey {
@@ -121,4 +122,15 @@ model AppSettings {
   openaiApiKey    String   @default("")
   defaultProvider String   @default("gemini")
   updatedAt       DateTime @updatedAt
+}
+
+model ExportTemplate {
+  id        String   @id @default(cuid())
+  sessionId String?  // null = global template
+  name      String
+  isDefault Boolean  @default(false)
+  columns   Json     // Column configuration
+  createdAt DateTime @default(now())
+
+  session GradingSession? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 }

@@ -87,10 +87,10 @@ export const GradesList = memo(function GradesList({
     <Card>
       <CardHeader>
         <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <CardTitle>Daftar Nilai Mahasiswa</CardTitle>
-              <CardDescription>
+              <CardDescription className="text-xs sm:text-sm">
                 Nilai dalam skala 100 dengan huruf mutu
                 {filteredGrades.length !== grades.length && (
                   <span className="ml-2 text-primary font-medium">
@@ -101,6 +101,8 @@ export const GradesList = memo(function GradesList({
             </div>
             <Button
               variant="outline"
+              size="sm"
+              className="w-full sm:w-auto"
               onClick={() => {
                 window.open(
                   `/api/sessions/${sessionId}/export-xlsx`,
@@ -132,13 +134,13 @@ export const GradesList = memo(function GradesList({
               <Link
                 key={grade.id}
                 href={`/sessions/${sessionId}/students/${grade.id}`}
-                className="flex items-center justify-between rounded-md border px-4 py-3 transition-colors hover:bg-muted/50"
+                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-md border px-3 sm:px-4 py-3 transition-colors hover:bg-muted/50"
               >
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2 min-w-8">
+                <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                  <div className="flex items-center gap-2 shrink-0">
                     {idx < 3 && (
                       <Award
-                        className={`h-4 w-4 ${
+                        className={`h-3 w-3 sm:h-4 sm:w-4 ${
                           idx === 0
                             ? "text-yellow-500"
                             : idx === 1
@@ -147,44 +149,43 @@ export const GradesList = memo(function GradesList({
                         }`}
                       />
                     )}
-                    <span className="text-sm font-medium text-muted-foreground">
+                    <span className="text-xs sm:text-sm font-medium text-muted-foreground">
                       {idx + 1}
                     </span>
                   </div>
-                  <div>
-                    <p className="font-medium">{grade.studentName}</p>
-                    <p className="text-xs text-muted-foreground">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm sm:text-base truncate">{grade.studentName}</p>
+                    <p className="text-[10px] sm:text-xs text-muted-foreground truncate">
                       {grade.fileName}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  {/* Raw Score */}
-                  <div className="text-right min-w-20">
-                    <p className="text-sm text-muted-foreground">Raw</p>
-                    <p className="text-sm font-mono">
-                      {grade.totalScore?.toFixed(1)} /{" "}
-                      {grade.maxScore?.toFixed(1)}
+                <div className="flex items-center gap-2 sm:gap-4 justify-between sm:justify-end">
+                  {/* Raw Score - Hidden on mobile */}
+                  <div className="hidden md:block text-right min-w-20">
+                    <p className="text-xs text-muted-foreground">Raw</p>
+                    <p className="text-xs font-mono">
+                      {grade.totalScore?.toFixed(1)} / {grade.maxScore?.toFixed(1)}
                     </p>
                   </div>
 
                   {/* Scale 100 */}
-                  <div className="text-right min-w-16">
-                    <p className="text-sm text-muted-foreground">Skala 100</p>
-                    <p className="text-lg font-bold">{grade.scale100}</p>
+                  <div className="text-right">
+                    <p className="text-[10px] sm:text-xs text-muted-foreground">Skala 100</p>
+                    <p className="text-base sm:text-lg font-bold">{grade.scale100}</p>
                   </div>
 
                   {/* Percentage */}
-                  <div className="text-right min-w-16">
-                    <p className="text-sm text-muted-foreground">Persen</p>
-                    <p className="text-sm font-medium">
+                  <div className="text-right">
+                    <p className="text-[10px] sm:text-xs text-muted-foreground">Persen</p>
+                    <p className="text-xs sm:text-sm font-medium">
                       {grade.percentage?.toFixed(1)}%
                     </p>
                   </div>
 
                   {/* Letter Grade */}
-                  <div className="min-w-20 flex flex-col items-end gap-1">
+                  <div className="flex flex-col items-end gap-0.5 sm:gap-1 shrink-0">
                     <Badge
                       variant={
                         grade.letterGrade.color as
@@ -192,11 +193,11 @@ export const GradesList = memo(function GradesList({
                           | "secondary"
                           | "destructive"
                       }
-                      className="text-lg font-bold px-3 py-1"
+                      className="text-sm sm:text-lg font-bold px-2 sm:px-3 py-0.5 sm:py-1"
                     >
                       {grade.letterGrade.grade}
                     </Badge>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-[10px] sm:text-xs text-muted-foreground whitespace-nowrap">
                       {grade.letterGrade.description}
                     </span>
                   </div>

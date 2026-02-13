@@ -156,28 +156,31 @@ export default function SessionDetailPage({
         name={session.name}
         courseName={session.courseName}
         status={session.status}
+        sessionId={sessionId}
       />
 
       {/* Tabs */}
       <Tabs defaultValue="answer-key">
-        <TabsList>
-          <TabsTrigger value="answer-key">
-            <FileText className="mr-2 h-4 w-4" />
-            Kunci Jawaban
-          </TabsTrigger>
-          <TabsTrigger value="submissions">
-            <Upload className="mr-2 h-4 w-4" />
-            Jawaban Mahasiswa
-          </TabsTrigger>
-          <TabsTrigger value="grading">
-            <Play className="mr-2 h-4 w-4" />
-            Penilaian & Hasil
-          </TabsTrigger>
-          <TabsTrigger value="final-grades">
-            <Award className="mr-2 h-4 w-4" />
-            Nilai Akhir & Huruf Mutu
-          </TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+          <TabsList className="w-full md:w-auto inline-flex">
+            <TabsTrigger value="answer-key" className="text-xs sm:text-sm whitespace-nowrap">
+              <FileText className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+              Kunci Jawaban
+            </TabsTrigger>
+            <TabsTrigger value="submissions" className="text-xs sm:text-sm whitespace-nowrap">
+              <Upload className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+              Jawaban Mahasiswa
+            </TabsTrigger>
+            <TabsTrigger value="grading" className="text-xs sm:text-sm whitespace-nowrap">
+              <Play className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+              Penilaian & Hasil
+            </TabsTrigger>
+            <TabsTrigger value="final-grades" className="text-xs sm:text-sm whitespace-nowrap">
+              <Award className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+              Nilai Akhir & Huruf Mutu
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="answer-key">
           <AnswerKeyTab
@@ -195,6 +198,7 @@ export default function SessionDetailPage({
         <TabsContent value="submissions">
           <SubmissionsTab
             session={session}
+            sessionId={sessionId}
             uploadingSubmissions={submissionsMutation.isPending}
             isGrading={grading}
             deletingSubmission={
@@ -204,6 +208,7 @@ export default function SessionDetailPage({
             }
             onSubmissionsUpload={handleSubmissionsUpload}
             onDeleteSubmission={handleDeleteSubmission}
+            onRefresh={refetchSession}
           />
         </TabsContent>
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { MobileSidebar } from "@/components/layout/MobileSidebar";
 import { QueryProvider } from "@/providers/query-provider";
 import "./globals.css";
 
@@ -33,8 +34,9 @@ export default function RootLayout({
         <QueryProvider>
           <div className="flex h-screen">
             <Sidebar />
+            <MobileSidebar />
             <main className="flex-1 overflow-auto bg-muted/30">
-              <div className="mx-auto max-w-6xl p-6">{children}</div>
+              <div className="mx-auto p-6 md:p-6 pt-16 md:pt-6">{children}</div>
             </main>
           </div>
           <Toaster />

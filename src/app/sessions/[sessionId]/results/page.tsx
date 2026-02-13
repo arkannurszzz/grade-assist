@@ -110,15 +110,24 @@ export default function ResultsPage({
             </p>
           </div>
         </div>
-        <Button
-          variant="outline"
-          onClick={() =>
-            window.open(`/api/sessions/${sessionId}/export-xlsx`, "_blank")
-          }
-        >
-          <Download className="mr-2 h-4 w-4" />
-          Export Excel
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() =>
+              window.open(`/api/sessions/${sessionId}/export-xlsx`, "_blank")
+            }
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Quick Export
+          </Button>
+          <Link href={`/sessions/${sessionId}/export-customize`}>
+            <Button variant="outline" size="sm">
+              <Download className="mr-2 h-4 w-4" />
+              Customize Export
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">

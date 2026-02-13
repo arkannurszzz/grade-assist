@@ -15,20 +15,24 @@ import type { Session } from "@/types/session";
 
 interface SubmissionsTabProps {
   session: Session;
+  sessionId: string;
   uploadingSubmissions: boolean;
   isGrading: boolean;
   deletingSubmission: string | null;
   onSubmissionsUpload: (files: File[]) => void;
   onDeleteSubmission: (submissionId: string) => void;
+  onRefresh?: () => void;
 }
 
 export function SubmissionsTab({
   session,
+  sessionId,
   uploadingSubmissions,
   isGrading,
   deletingSubmission,
   onSubmissionsUpload,
   onDeleteSubmission,
+  onRefresh,
 }: SubmissionsTabProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -61,14 +65,14 @@ export function SubmissionsTab({
             </p>
           ) : uploadingSubmissions ? (
             <div className="space-y-3">
-              <div className="flex flex-col gap-3 rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-950/30">
-                <div className="flex items-center gap-3">
-                  <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
-                  <div className="flex-1">
-                    <p className="font-semibold text-blue-700 dark:text-blue-300">
+              <div className="flex flex-col gap-3 rounded-lg border border-blue-200 bg-blue-50 p-3 sm:p-4 dark:border-blue-800 dark:bg-blue-950/30">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <Loader2 className="h-5 w-5 sm:h-6 sm:w-6 animate-spin text-blue-600 shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-sm sm:text-base text-blue-700 dark:text-blue-300">
                       Mengupload dan memparse dokumen...
                     </p>
-                    <p className="text-xs text-blue-600/70 dark:text-blue-400/70 mt-1">
+                    <p className="text-[10px] sm:text-xs text-blue-600/70 dark:text-blue-400/70 mt-1">
                       Memproses file jawaban mahasiswa
                     </p>
                   </div>
@@ -76,27 +80,27 @@ export function SubmissionsTab({
 
                 {/* Progress Steps */}
                 <div className="space-y-2 border-t border-blue-200 dark:border-blue-800 pt-3">
-                  <div className="flex items-center gap-2 text-sm">
-                    <Loader2 className="h-3 w-3 animate-spin text-blue-600" />
+                  <div className="flex items-center gap-2 text-xs sm:text-sm">
+                    <Loader2 className="h-3 w-3 animate-spin text-blue-600 shrink-0" />
                     <span className="text-blue-700 dark:text-blue-300">
                       Upload file ke server
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <Loader2 className="h-3 w-3 animate-spin text-blue-600" />
+                  <div className="flex items-center gap-2 text-xs sm:text-sm">
+                    <Loader2 className="h-3 w-3 animate-spin text-blue-600 shrink-0" />
                     <span className="text-blue-700 dark:text-blue-300">
                       Ekstrak teks dari dokumen
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <Loader2 className="h-3 w-3 animate-spin text-blue-600" />
+                  <div className="flex items-center gap-2 text-xs sm:text-sm">
+                    <Loader2 className="h-3 w-3 animate-spin text-blue-600 shrink-0" />
                     <span className="text-blue-700 dark:text-blue-300">
                       Menyimpan submission
                     </span>
                   </div>
                 </div>
 
-                <div className="text-xs text-blue-600/70 dark:text-blue-400/70">
+                <div className="text-[10px] sm:text-xs text-blue-600/70 dark:text-blue-400/70">
                   💡 <strong>Tips:</strong> Proses akan lebih cepat jika jumlah
                   file &lt; 20 dan ukuran file &lt; 5MB per file
                 </div>
@@ -122,10 +126,10 @@ export function SubmissionsTab({
         <Card>
           <CardHeader>
             <div className="flex flex-col gap-4">
-              <CardTitle>
-                Daftar Submission ({session.submissions.length})
+              <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                <span>Daftar Submission ({session.submissions.length})</span>
                 {filteredSubmissions.length !== session.submissions.length && (
-                  <span className="ml-2 text-sm text-primary font-normal">
+                  <span className="text-xs sm:text-sm text-primary font-normal">
                     (menampilkan {filteredSubmissions.length})
                   </span>
                 )}
@@ -163,9 +167,11 @@ export function SubmissionsTab({
                   <SubmissionItem
                     key={sub.id}
                     submission={sub}
+                    sessionId={sessionId}
                     isGrading={isGrading}
                     isDeleting={deletingSubmission === sub.id}
                     onDelete={onDeleteSubmission}
+                    onRename={onRefresh}
                   />
                 ))}
               </div>

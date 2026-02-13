@@ -27,10 +27,10 @@ export default function DashboardPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold">Dashboard</h1>
-            <p className="text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Selamat datang di GradeAssist
             </p>
           </div>
@@ -53,13 +53,13 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">Selamat datang di GradeAssist</p>
+          <p className="text-sm text-muted-foreground">Selamat datang di GradeAssist</p>
         </div>
-        <Link href="/sessions/new">
-          <Button>
+        <Link href="/sessions/new" className="w-full sm:w-auto">
+          <Button className="w-full sm:w-auto">
             <Plus className="mr-2 h-4 w-4" />
             Buat Sesi Baru
           </Button>
@@ -81,7 +81,7 @@ export default function DashboardPage() {
       {stats && <GradeCharts gradeDistribution={stats.gradeDistribution} />}
 
       {/* Top Sessions & Recent Sessions */}
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-2">
         {stats && <TopSessions sessions={stats.topSessions} />}
         <RecentSessions sessions={sessions} />
       </div>

@@ -13,6 +13,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import { EditGradeDialog } from "@/components/features/session-detail/EditGradeDialog";
+import { RegradeButton } from "@/components/features/session-detail/RegradeButton";
+import { AIDetectionEvidence } from "@/components/features/analytics/AIDetectionEvidence";
 
 interface SuspectedPart {
   start: number;
@@ -65,7 +68,8 @@ export default function StudentDetailPage({
   const [data, setData] = useState<SubmissionDetail | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchData = () => {
+    setLoading(true);
     fetch(`/api/sessions/${sessionId}/results`)
       .then((res) => res.json())
       .then((session) => {
@@ -76,6 +80,11 @@ export default function StudentDetailPage({
         setLoading(false);
       })
       .catch(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId, studentId]);
 
   if (loading) return <p className="text-muted-foreground">Memuat...</p>;
@@ -87,16 +96,24 @@ export default function StudentDetailPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <Link href={`/sessions/${sessionId}/results`}>
-          <Button variant="ghost" size="sm">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold">{data.studentName}</h1>
-          <p className="text-sm text-muted-foreground">{data.fileName}</p>
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <Link href={`/sessions/${sessionId}/results`}>
+            <Button variant="ghost" size="sm">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <div>
+            <h1 className="text-2xl font-bold">{data.studentName}</h1>
+            <p className="text-sm text-muted-foreground">{data.fileName}</p>
+          </div>
         </div>
+        <RegradeButton
+          sessionId={sessionId}
+          submissionId={studentId}
+          studentName={data.studentName}
+          onSuccess={fetchData}
+        />
       </div>
 
       {/* Summary Cards */}
@@ -166,7 +183,7 @@ export default function StudentDetailPage({
           .map((answer) => (
             <Card key={answer.id}>
               <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-3">
                   <CardTitle className="text-base">
                     Soal {answer.question.questionNumber}
                     <span className="ml-2 text-sm font-normal text-muted-foreground">
@@ -191,6 +208,16 @@ export default function StudentDetailPage({
                     >
                       {((answer.score ?? 0) * 100).toFixed(0)}%
                     </Badge>
+                    <EditGradeDialog
+                      sessionId={sessionId}
+                      submissionId={studentId}
+                      answerId={answer.id}
+                      questionNumber={answer.question.questionNumber}
+                      currentScore={answer.score ?? 0}
+                      maxScore={answer.question.weight}
+                      currentFeedback={answer.feedback || ""}
+                      onSuccess={fetchData}
+                    />
                   </div>
                 </div>
               </CardHeader>
@@ -244,77 +271,14 @@ export default function StudentDetailPage({
                     )}
                 </div>
 
-                {/* AI Detection Detail */}
-                {answer.aiDetection && answer.aiDetection.isAIGenerated && (
+                {/* AI Detection Detail - Enhanced */}
+                {answer.aiDetection && (
                   <>
                     <Separator />
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <ShieldAlert className="h-4 w-4 text-amber-600" />
-                        <p className="text-sm font-medium text-amber-600">
-                          Analisis Deteksi AI
-                        </p>
-                      </div>
-
-                      <div className="grid gap-2 md:grid-cols-2">
-                        <div>
-                          <p className="text-xs text-muted-foreground">
-                            Confidence AI
-                          </p>
-                          <div className="flex items-center gap-2">
-                            <Progress
-                              value={answer.aiDetection.confidence * 100}
-                              className="h-2"
-                            />
-                            <span className="text-xs font-medium">
-                              {(answer.aiDetection.confidence * 100).toFixed(0)}%
-                            </span>
-                          </div>
-                        </div>
-                        {answer.aiDetection.isCopyPasted && (
-                          <div>
-                            <p className="text-xs text-muted-foreground">
-                              Copy-Paste Terdeteksi
-                            </p>
-                            <Badge variant="outline" className="mt-1">
-                              Similarity: {(answer.aiDetection.similarityScore * 100).toFixed(0)}%
-                            </Badge>
-                          </div>
-                        )}
-                      </div>
-
-                      {answer.aiDetection.analysis && (
-                        <div className="rounded-md bg-amber-50 p-3 dark:bg-amber-950/30">
-                          <p className="text-sm">
-                            {answer.aiDetection.analysis}
-                          </p>
-                        </div>
-                      )}
-
-                      {answer.aiDetection.suspectedParts &&
-                        (answer.aiDetection.suspectedParts as SuspectedPart[]).length > 0 && (
-                          <div className="space-y-2">
-                            <p className="text-xs font-medium text-muted-foreground">
-                              Bagian yang Dicurigai:
-                            </p>
-                            {(answer.aiDetection.suspectedParts as SuspectedPart[]).map(
-                              (part, idx) => (
-                                <div
-                                  key={idx}
-                                  className="rounded border-l-2 border-amber-400 bg-amber-50/50 p-2 dark:bg-amber-950/20"
-                                >
-                                  <p className="text-sm italic">
-                                    &quot;{part.text}&quot;
-                                  </p>
-                                  <p className="mt-1 text-xs text-muted-foreground">
-                                    {part.reason}
-                                  </p>
-                                </div>
-                              )
-                            )}
-                          </div>
-                        )}
-                    </div>
+                    <AIDetectionEvidence
+                      detection={answer.aiDetection}
+                      answerText={answer.answerText}
+                    />
                   </>
                 )}
               </CardContent>

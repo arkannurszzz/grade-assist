@@ -22,7 +22,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex w-64 flex-col border-r bg-background">
+    <aside className="hidden md:flex w-64 flex-col border-r bg-background">
       <div className="flex items-center gap-2 border-b px-6 py-4">
         <GraduationCap className="h-6 w-6 text-primary" />
         <span className="text-lg font-semibold">GradeAssist</span>

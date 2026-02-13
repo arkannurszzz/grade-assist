@@ -17,7 +17,7 @@ export function QuickActions() {
         <CardDescription>Akses cepat ke fitur-fitur penting</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-3 md:grid-cols-4">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Link href="/sessions/new">
             <Button variant="outline" className="w-full justify-start">
               <Plus className="mr-2 h-4 w-4" />

@@ -68,21 +68,21 @@ export function RecentSessions({ sessions }: RecentSessionsProps) {
             <Link
               key={session.id}
               href={`/sessions/${session.id}`}
-              className="flex items-center justify-between rounded-md border p-3 transition-colors hover:bg-muted/50"
+              className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-md border p-3 transition-colors hover:bg-muted/50"
             >
-              <div>
-                <p className="font-medium text-sm">{session.name}</p>
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-sm truncate">{session.name}</p>
                 {session.courseName && (
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-muted-foreground truncate">
                     {session.courseName}
                   </p>
                 )}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 shrink-0">
                 <span className="text-xs text-muted-foreground">
                   {session._count.submissions} mhs
                 </span>
-                <Badge variant="secondary" className="text-xs">
+                <Badge variant="secondary" className="text-xs whitespace-nowrap">
                   {statusLabels[session.status] || session.status}
                 </Badge>
               </div>

@@ -46,24 +46,24 @@ export function GradeStatistics({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">Total Mahasiswa</p>
-            <p className="text-2xl font-bold">{grades.length}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">Total Mahasiswa</p>
+            <p className="text-xl sm:text-2xl font-bold">{grades.length}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">Rata-rata</p>
-            <p className="text-2xl font-bold">{avgPercentage.toFixed(1)}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">Rata-rata</p>
+            <p className="text-xl sm:text-2xl font-bold">{avgPercentage.toFixed(1)}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">Tertinggi</p>
-            <p className="text-2xl font-bold">
+            <p className="text-xs sm:text-sm text-muted-foreground">Tertinggi</p>
+            <p className="text-xl sm:text-2xl font-bold">
               {sortedGrades[0]?.percentage?.toFixed(1) || 0}
             </p>
           </div>
           <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">Terendah</p>
-            <p className="text-2xl font-bold">
+            <p className="text-xs sm:text-sm text-muted-foreground">Terendah</p>
+            <p className="text-xl sm:text-2xl font-bold">
               {sortedGrades[sortedGrades.length - 1]?.percentage?.toFixed(1) ||
                 0}
             </p>
@@ -72,22 +72,23 @@ export function GradeStatistics({
 
         {/* Grade Distribution */}
         <div>
-          <p className="text-sm font-medium mb-2">Distribusi Huruf Mutu</p>
+          <p className="text-xs sm:text-sm font-medium mb-2">Distribusi Huruf Mutu</p>
           <div className="flex gap-2 flex-wrap">
             {gradeDistribution.map((dist) => (
               <div
                 key={dist.grade}
-                className="flex items-center gap-2 rounded-md border px-3 py-2"
+                className="flex items-center gap-1.5 sm:gap-2 rounded-md border px-2 sm:px-3 py-1.5 sm:py-2"
               >
                 <Badge
                   variant={
                     dist.color as "default" | "secondary" | "destructive"
                   }
+                  className="text-xs"
                 >
                   {dist.grade}
                 </Badge>
-                <span className="text-sm font-medium">{dist.count}</span>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs sm:text-sm font-medium">{dist.count}</span>
+                <span className="text-[10px] sm:text-xs text-muted-foreground whitespace-nowrap">
                   ({dist.min}-{dist.max})
                 </span>
               </div>
