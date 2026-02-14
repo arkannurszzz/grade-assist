@@ -8,8 +8,11 @@ export async function parsePdf(buffer: Buffer): Promise<string> {
     // Dynamically import unpdf (pure JS, works in serverless)
     const { extractText } = await import("unpdf");
 
+    // Convert Buffer to Uint8Array (required by unpdf)
+    const uint8Array = new Uint8Array(buffer);
+
     // Extract text from PDF
-    const { text } = await extractText(buffer, {
+    const { text } = await extractText(uint8Array, {
       mergePages: true, // Combine all pages into single text
     });
 
