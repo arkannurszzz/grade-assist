@@ -3,14 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import {
-  Lightbulb,
-  AlertTriangle,
-  CheckCircle2,
-  TrendingUp,
-  TrendingDown,
-  Minus,
-} from "lucide-react";
+import { Lightbulb, AlertTriangle, CheckCircle2, Minus } from "lucide-react";
 import type { QuestionAnalysis } from "@/types/analytics";
 
 interface QuestionInsight {
@@ -40,7 +33,7 @@ export function QuestionInsights({ questions }: QuestionInsightsProps) {
     insights.reduce((sum, i) => sum + i.healthScore, 0) / insights.length;
   const criticalCount = insights.filter((i) => i.status === "critical").length;
   const needsAttentionCount = insights.filter(
-    (i) => i.status === "needs-attention"
+    (i) => i.status === "needs-attention",
   ).length;
 
   const getStatusIcon = (status: QuestionInsight["status"]) => {
@@ -82,57 +75,71 @@ export function QuestionInsights({ questions }: QuestionInsightsProps) {
       {/* Overall Summary */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Lightbulb className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+            <Lightbulb className="h-4 w-4 sm:h-5 sm:w-5" />
             Question Quality Insights
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Health Score */}
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium">Overall Question Health</p>
-              <p className="text-xs text-muted-foreground">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="flex-1">
+              <p className="text-xs sm:text-sm font-medium">
+                Overall Question Health
+              </p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">
                 Based on difficulty, AI risk, and discrimination
               </p>
             </div>
-            <div className="text-right">
-              <div className="text-3xl font-bold">
+            <div className="text-left sm:text-right">
+              <div className="text-2xl sm:text-3xl font-bold">
                 {avgHealthScore.toFixed(0)}
-                <span className="text-lg text-muted-foreground">/100</span>
+                <span className="text-base sm:text-lg text-muted-foreground">
+                  /100
+                </span>
               </div>
-              <p className="text-xs text-muted-foreground">health score</p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">
+                health score
+              </p>
             </div>
           </div>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-3 gap-3 pt-2">
-            <div className="text-center p-3 border rounded">
-              <div className="text-2xl font-bold text-red-600">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-2">
+            <div className="text-center p-2 sm:p-3 border rounded">
+              <div className="text-lg sm:text-2xl font-bold text-red-600">
                 {criticalCount}
               </div>
-              <p className="text-xs text-muted-foreground">Critical</p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">
+                Critical
+              </p>
             </div>
-            <div className="text-center p-3 border rounded">
-              <div className="text-2xl font-bold text-orange-600">
+            <div className="text-center p-2 sm:p-3 border rounded">
+              <div className="text-lg sm:text-2xl font-bold text-orange-600">
                 {needsAttentionCount}
               </div>
-              <p className="text-xs text-muted-foreground">Needs Attention</p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">
+                Needs Attention
+              </p>
             </div>
-            <div className="text-center p-3 border rounded">
-              <div className="text-2xl font-bold text-green-600">
+            <div className="text-center p-2 sm:p-3 border rounded">
+              <div className="text-lg sm:text-2xl font-bold text-green-600">
                 {insights.length - criticalCount - needsAttentionCount}
               </div>
-              <p className="text-xs text-muted-foreground">Good/Excellent</p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">
+                Good/Excellent
+              </p>
             </div>
           </div>
 
           {/* Key Recommendations */}
           {(criticalCount > 0 || needsAttentionCount > 0) && (
             <Alert className="bg-amber-50 border-amber-200 dark:bg-amber-950 dark:border-amber-800">
-              <Lightbulb className="h-4 w-4" />
-              <AlertTitle>Key Recommendations</AlertTitle>
-              <AlertDescription className="space-y-1 mt-2">
+              <Lightbulb className="h-3 w-3 sm:h-4 sm:w-4" />
+              <AlertTitle className="text-xs sm:text-sm">
+                Key Recommendations
+              </AlertTitle>
+              <AlertDescription className="space-y-1 mt-2 text-xs sm:text-sm">
                 {criticalCount > 0 && (
                   <p>
                     • <strong>{criticalCount} critical issues</strong> require
@@ -145,7 +152,7 @@ export function QuestionInsights({ questions }: QuestionInsightsProps) {
                     improved for better assessment quality
                   </p>
                 )}
-                <p className="text-xs mt-2 text-muted-foreground">
+                <p className="text-[10px] sm:text-xs mt-2 text-muted-foreground">
                   Scroll down for detailed insights per question
                 </p>
               </AlertDescription>
@@ -163,24 +170,24 @@ export function QuestionInsights({ questions }: QuestionInsightsProps) {
               insight.status === "critical"
                 ? "border-red-200 dark:border-red-800"
                 : insight.status === "needs-attention"
-                ? "border-orange-200 dark:border-orange-800"
-                : ""
+                  ? "border-orange-200 dark:border-orange-800"
+                  : ""
             }
           >
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1">
                     {getStatusIcon(insight.status)}
-                    <h4 className="font-semibold">
+                    <h4 className="font-semibold text-xs sm:text-sm">
                       Question {insight.questionNumber}
                     </h4>
                     {getStatusBadge(insight.status)}
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-[10px] sm:text-xs">
                       Health: {insight.healthScore}/100
                     </Badge>
                   </div>
-                  <p className="text-sm text-muted-foreground line-clamp-1">
+                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
                     {insight.questionText}
                   </p>
                 </div>
@@ -190,15 +197,19 @@ export function QuestionInsights({ questions }: QuestionInsightsProps) {
               {/* Metrics */}
               <div className="grid grid-cols-3 gap-2">
                 <div className="text-center p-2 bg-muted/30 rounded">
-                  <p className="text-xs text-muted-foreground">Difficulty</p>
-                  <p className="text-sm font-medium capitalize">
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">
+                    Difficulty
+                  </p>
+                  <p className="text-xs sm:text-sm font-medium capitalize wrap-break-word">
                     {insight.metrics.difficulty.replace("-", " ")}
                   </p>
                 </div>
                 <div className="text-center p-2 bg-muted/30 rounded">
-                  <p className="text-xs text-muted-foreground">AI Risk</p>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">
+                    AI Risk
+                  </p>
                   <p
-                    className={`text-sm font-medium capitalize ${
+                    className={`text-xs sm:text-sm font-medium capitalize ${
                       insight.metrics.aiRisk === "critical" ||
                       insight.metrics.aiRisk === "high"
                         ? "text-red-600"
@@ -209,8 +220,10 @@ export function QuestionInsights({ questions }: QuestionInsightsProps) {
                   </p>
                 </div>
                 <div className="text-center p-2 bg-muted/30 rounded">
-                  <p className="text-xs text-muted-foreground">Discrimination</p>
-                  <p className="text-sm font-medium capitalize">
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">
+                    Discrimination
+                  </p>
+                  <p className="text-xs sm:text-sm font-medium capitalize">
                     {insight.metrics.discrimination}
                   </p>
                 </div>
@@ -219,13 +232,16 @@ export function QuestionInsights({ questions }: QuestionInsightsProps) {
               {/* Insights */}
               {insight.insights.length > 0 && (
                 <div className="space-y-1">
-                  <p className="text-xs font-semibold text-muted-foreground">
+                  <p className="text-[10px] sm:text-xs font-semibold text-muted-foreground">
                     Insights:
                   </p>
                   {insight.insights.map((item, idx) => (
-                    <p key={idx} className="text-sm flex items-start gap-2">
-                      <Minus className="h-3 w-3 mt-1 shrink-0" />
-                      <span>{item}</span>
+                    <p
+                      key={idx}
+                      className="text-xs sm:text-sm flex items-start gap-2"
+                    >
+                      <Minus className="h-3 w-3 mt-0.5 shrink-0" />
+                      <span className="wrap-break-word">{item}</span>
                     </p>
                   ))}
                 </div>
@@ -233,17 +249,17 @@ export function QuestionInsights({ questions }: QuestionInsightsProps) {
 
               {/* Recommendations */}
               {insight.recommendations.length > 0 && (
-                <div className="space-y-1 p-3 bg-blue-50 dark:bg-blue-950 rounded">
-                  <p className="text-xs font-semibold text-blue-900 dark:text-blue-100">
+                <div className="space-y-1 p-2 sm:p-3 bg-blue-50 dark:bg-blue-950 rounded">
+                  <p className="text-[10px] sm:text-xs font-semibold text-blue-900 dark:text-blue-100">
                     💡 Recommendations:
                   </p>
                   {insight.recommendations.map((item, idx) => (
                     <p
                       key={idx}
-                      className="text-sm flex items-start gap-2 text-blue-900 dark:text-blue-100"
+                      className="text-xs sm:text-sm flex items-start gap-2 text-blue-900 dark:text-blue-100"
                     >
-                      <span>•</span>
-                      <span>{item}</span>
+                      <span className="shrink-0">•</span>
+                      <span className="wrap-break-word">{item}</span>
                     </p>
                   ))}
                 </div>
@@ -269,7 +285,7 @@ function analyzeQuestion(q: QuestionAnalysis): QuestionInsight {
     difficulty = "too-easy";
     insights.push(`Very high average score (${scorePercentage.toFixed(1)}%)`);
     recommendations.push(
-      "Consider adding complexity or requiring more specific details"
+      "Consider adding complexity or requiring more specific details",
     );
     healthScore -= 15;
   } else if (scorePercentage >= 75) {
@@ -282,14 +298,14 @@ function analyzeQuestion(q: QuestionAnalysis): QuestionInsight {
     difficulty = "hard";
     insights.push(`Below average scores (${scorePercentage.toFixed(1)}%)`);
     recommendations.push(
-      "Consider providing clearer instructions or partial credit opportunities"
+      "Consider providing clearer instructions or partial credit opportunities",
     );
     healthScore -= 10;
   } else {
     difficulty = "too-hard";
     insights.push(`Very low scores (${scorePercentage.toFixed(1)}%)`);
     recommendations.push(
-      "Review question clarity - may be too difficult or poorly worded"
+      "Review question clarity - may be too difficult or poorly worded",
     );
     healthScore -= 20;
   }
@@ -302,23 +318,25 @@ function analyzeQuestion(q: QuestionAnalysis): QuestionInsight {
     aiRisk = "critical";
     insights.push(`Critical AI usage: ${aiPercentage.toFixed(0)}% of answers`);
     recommendations.push(
-      "HIGH PRIORITY: Redesign to require specific knowledge or critical thinking"
+      "HIGH PRIORITY: Redesign to require specific knowledge or critical thinking",
     );
     recommendations.push(
-      "Consider asking for real-world examples or personal analysis"
+      "Consider asking for real-world examples or personal analysis",
     );
     healthScore -= 40;
   } else if (aiPercentage >= 50) {
     aiRisk = "high";
     insights.push(`High AI usage: ${aiPercentage.toFixed(0)}% of answers`);
     recommendations.push("Make question more specific to course context");
-    recommendations.push("Require examples from class materials or discussions");
+    recommendations.push(
+      "Require examples from class materials or discussions",
+    );
     healthScore -= 25;
   } else if (aiPercentage >= 30) {
     aiRisk = "medium";
     insights.push(`Moderate AI usage: ${aiPercentage.toFixed(0)}% of answers`);
     recommendations.push(
-      "Consider adding constraints that require course-specific knowledge"
+      "Consider adding constraints that require course-specific knowledge",
     );
     healthScore -= 10;
   } else {

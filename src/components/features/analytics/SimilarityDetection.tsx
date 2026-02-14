@@ -119,53 +119,69 @@ export function SimilarityDetection({ sessionId }: SimilarityDetectionProps) {
   return (
     <div className="space-y-6">
       {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Card className="min-w-0">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              Similar Groups
+            <CardTitle className="text-xs sm:text-sm flex items-center gap-2 min-w-0">
+              <Users className="h-3 w-3 sm:h-4 sm:w-4 shrink-0" />
+              <span className="truncate">Similar Groups</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data.summary.totalGroups}</div>
-            <p className="text-xs text-muted-foreground">detected</p>
+            <div className="text-xl sm:text-2xl font-bold">
+              {data.summary.totalGroups}
+            </div>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">
+              detected
+            </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="min-w-0">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Students Involved</CardTitle>
+            <CardTitle className="text-xs sm:text-sm truncate min-w-0">
+              Students Involved
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl sm:text-2xl font-bold">
               {data.summary.totalStudentsInvolved}
             </div>
-            <p className="text-xs text-muted-foreground">unique students</p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">
+              unique students
+            </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="min-w-0">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">AI + Similarity</CardTitle>
+            <CardTitle className="text-xs sm:text-sm truncate min-w-0">
+              AI + Similarity
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-600">
+            <div className="text-xl sm:text-2xl font-bold text-orange-600">
               {data.summary.aiGeneratedMatches}
             </div>
-            <p className="text-xs text-muted-foreground">groups with AI</p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">
+              groups with AI
+            </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="min-w-0">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">High Risk</CardTitle>
+            <CardTitle className="text-xs sm:text-sm min-w-0">
+              High Risk
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-destructive">
+            <div className="text-xl sm:text-2xl font-bold text-destructive">
               {data.summary.highRiskGroups}
             </div>
-            <p className="text-xs text-muted-foreground">≥85% similarity</p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">
+              ≥85% similarity
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -173,17 +189,20 @@ export function SimilarityDetection({ sessionId }: SimilarityDetectionProps) {
       {/* Groups List */}
       <Card>
         <CardHeader>
-          <CardTitle>Similar Answer Groups</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-base sm:text-lg">
+            Similar Answer Groups
+          </CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
             Mahasiswa dengan jawaban yang sangat mirip (≥70% similarity)
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {data.groups.length === 0 ? (
             <Alert>
-              <Shield className="h-4 w-4" />
-              <AlertDescription>
-                Tidak ada grup jawaban yang mirip terdeteksi. Semua jawaban unik.
+              <Shield className="h-3 w-3 sm:h-4 sm:w-4" />
+              <AlertDescription className="text-xs sm:text-sm">
+                Tidak ada grup jawaban yang mirip terdeteksi. Semua jawaban
+                unik.
               </AlertDescription>
             </Alert>
           ) : (
@@ -193,33 +212,33 @@ export function SimilarityDetection({ sessionId }: SimilarityDetectionProps) {
                 className="border rounded-lg overflow-hidden"
               >
                 <div
-                  className="p-4 bg-muted/30 cursor-pointer hover:bg-muted/50 transition-colors"
+                  className="p-3 sm:p-4 bg-muted/30 cursor-pointer hover:bg-muted/50 transition-colors"
                   onClick={() =>
                     setExpandedGroup(
-                      expandedGroup === group.groupId ? null : group.groupId
+                      expandedGroup === group.groupId ? null : group.groupId,
                     )
                   }
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h4 className="font-semibold">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1">
+                        <h4 className="font-semibold text-xs sm:text-sm">
                           Soal {group.questionNumber}
                         </h4>
                         {getRiskBadge(group.similarityScore)}
-                        <Badge variant="outline">
+                        <Badge variant="outline" className="text-xs">
                           {group.studentCount} students
                         </Badge>
                         {group.students.some((s) => s.isAIGenerated) && (
                           <Badge
                             variant="secondary"
-                            className="bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200"
+                            className="bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200 text-xs"
                           >
                             AI Detected
                           </Badge>
                         )}
                       </div>
-                      <p className="text-sm text-muted-foreground line-clamp-1">
+                      <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1">
                         {group.questionText}
                       </p>
                     </div>
@@ -229,9 +248,12 @@ export function SimilarityDetection({ sessionId }: SimilarityDetectionProps) {
                       onClick={(e) => {
                         e.stopPropagation();
                         setExpandedGroup(
-                          expandedGroup === group.groupId ? null : group.groupId
+                          expandedGroup === group.groupId
+                            ? null
+                            : group.groupId,
                         );
                       }}
+                      className="text-xs shrink-0"
                     >
                       {expandedGroup === group.groupId ? "Hide" : "Show"}
                     </Button>
@@ -239,19 +261,21 @@ export function SimilarityDetection({ sessionId }: SimilarityDetectionProps) {
                 </div>
 
                 {expandedGroup === group.groupId && (
-                  <div className="p-4 space-y-3">
-                    {group.students.map((student, idx) => (
+                  <div className="p-3 sm:p-4 space-y-3">
+                    {group.students.map((student) => (
                       <div
                         key={student.studentId}
-                        className="border rounded p-3 space-y-2"
+                        className="border rounded p-2 sm:p-3 space-y-2"
                       >
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="font-medium">{student.studentName}</p>
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-xs sm:text-sm truncate">
+                              {student.studentName}
+                            </p>
                             {student.isAIGenerated && (
                               <Badge
                                 variant="destructive"
-                                className="text-xs mt-1"
+                                className="text-[10px] sm:text-xs mt-1"
                               >
                                 AI Generated
                               </Badge>
@@ -259,17 +283,22 @@ export function SimilarityDetection({ sessionId }: SimilarityDetectionProps) {
                           </div>
                           <Link
                             href={`/sessions/${sessionId}/students/${student.studentId}`}
+                            className="w-full sm:w-auto"
                           >
-                            <Button variant="outline" size="sm">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="text-xs w-full sm:w-auto"
+                            >
                               View Detail
                             </Button>
                           </Link>
                         </div>
-                        <div className="bg-muted/50 p-2 rounded text-sm">
-                          <p className="text-xs text-muted-foreground mb-1">
+                        <div className="bg-muted/50 p-2 rounded">
+                          <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
                             Answer:
                           </p>
-                          <p className="whitespace-pre-wrap">
+                          <p className="text-xs sm:text-sm whitespace-pre-wrap wrap-break-word">
                             {student.answerText}
                           </p>
                         </div>

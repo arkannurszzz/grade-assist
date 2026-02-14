@@ -162,22 +162,26 @@ export default function SessionDetailPage({
       {/* Tabs */}
       <Tabs defaultValue="answer-key">
         <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
-          <TabsList className="w-full md:w-auto inline-flex">
-            <TabsTrigger value="answer-key" className="text-xs sm:text-sm whitespace-nowrap">
+          <TabsList className="w-full md:w-auto inline-flex gap-1">
+            <TabsTrigger value="answer-key" className="text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
               <FileText className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-              Kunci Jawaban
+              <span className="hidden sm:inline">Kunci Jawaban</span>
+              <span className="sm:hidden">Kunci</span>
             </TabsTrigger>
-            <TabsTrigger value="submissions" className="text-xs sm:text-sm whitespace-nowrap">
+            <TabsTrigger value="submissions" className="text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
               <Upload className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-              Jawaban Mahasiswa
+              <span className="hidden sm:inline">Jawaban Mahasiswa</span>
+              <span className="sm:hidden">Jawaban</span>
             </TabsTrigger>
-            <TabsTrigger value="grading" className="text-xs sm:text-sm whitespace-nowrap">
+            <TabsTrigger value="grading" className="text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
               <Play className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-              Penilaian & Hasil
+              <span className="hidden sm:inline">Penilaian & Hasil</span>
+              <span className="sm:hidden">Penilaian</span>
             </TabsTrigger>
-            <TabsTrigger value="final-grades" className="text-xs sm:text-sm whitespace-nowrap">
+            <TabsTrigger value="final-grades" className="text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
               <Award className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-              Nilai Akhir & Huruf Mutu
+              <span className="hidden sm:inline">Nilai Akhir & Huruf Mutu</span>
+              <span className="sm:hidden">Nilai</span>
             </TabsTrigger>
           </TabsList>
         </div>

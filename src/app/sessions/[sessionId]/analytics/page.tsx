@@ -135,9 +135,13 @@ export default function AnalyticsPage({
       />
 
       {/* Charts Grid */}
-      <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
-        <QuestionAnalysisChart data={data.questionAnalysis} />
-        <ConfidenceDistributionChart data={data.confidenceDistribution} />
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-2 min-w-0">
+        <div className="min-w-0">
+          <QuestionAnalysisChart data={data.questionAnalysis} />
+        </div>
+        <div className="min-w-0">
+          <ConfidenceDistributionChart data={data.confidenceDistribution} />
+        </div>
       </div>
 
       {/* Student Table */}

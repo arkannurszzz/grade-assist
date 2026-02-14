@@ -39,14 +39,14 @@ export function ConfidenceDistributionChart({
   const maxValue = Math.max(...buckets.map((b) => b.value));
 
   return (
-    <Card>
+    <Card className="min-w-0">
       <CardHeader>
         <CardTitle className="text-base sm:text-lg">Confidence Score Distribution</CardTitle>
         <CardDescription className="text-xs sm:text-sm">
           Distribusi tingkat kepercayaan AI detection ({total} total detections)
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="min-w-0">
         <div className="space-y-3 sm:space-y-4">
           {buckets.map((bucket) => {
             const percentage =

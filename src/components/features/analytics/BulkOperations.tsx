@@ -91,31 +91,33 @@ export function BulkOperations({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <RefreshCw className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+          <RefreshCw className="h-4 w-4 sm:h-5 sm:w-5" />
           Bulk Operations
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-xs sm:text-sm">
           Regrade multiple submissions at once with updated AI detection
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Options */}
-        <div className="space-y-3 p-4 border rounded-lg">
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="only-ai"
-              checked={onlyAIDetected}
-              onCheckedChange={(checked) => setOnlyAIDetected(!!checked)}
-              disabled={loading}
-            />
-            <Label htmlFor="only-ai" className="cursor-pointer">
-              Only regrade AI-detected submissions
-            </Label>
-            <Badge variant="secondary">{aiDetectedCount} submissions</Badge>
+        <div className="space-y-3 p-3 sm:p-4 border rounded-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 sm:space-x-2">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="only-ai"
+                checked={onlyAIDetected}
+                onCheckedChange={(checked) => setOnlyAIDetected(!!checked)}
+                disabled={loading}
+              />
+              <Label htmlFor="only-ai" className="cursor-pointer text-xs sm:text-sm">
+                Only regrade AI-detected submissions
+              </Label>
+            </div>
+            <Badge variant="secondary" className="text-xs w-fit">{aiDetectedCount} submissions</Badge>
           </div>
 
-          <div className="text-sm text-muted-foreground">
+          <div className="text-xs sm:text-sm text-muted-foreground">
             {onlyAIDetected ? (
               <>
                 Will regrade <strong>{aiDetectedCount}</strong> submissions
@@ -138,13 +140,13 @@ export function BulkOperations({
         >
           {loading ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Regrading...
+              <Loader2 className="mr-2 h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
+              <span className="text-xs sm:text-sm">Regrading...</span>
             </>
           ) : (
             <>
-              <RefreshCw className="mr-2 h-4 w-4" />
-              Start Bulk Regrade
+              <RefreshCw className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="text-xs sm:text-sm">Start Bulk Regrade</span>
             </>
           )}
         </Button>
@@ -156,29 +158,29 @@ export function BulkOperations({
             className="mt-4"
           >
             {result.success ? (
-              <CheckCircle2 className="h-4 w-4" />
+              <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4" />
             ) : (
-              <AlertCircle className="h-4 w-4" />
+              <AlertCircle className="h-3 w-3 sm:h-4 sm:w-4" />
             )}
             <AlertDescription>
               <div className="space-y-2">
-                <p className="font-semibold">
+                <p className="font-semibold text-xs sm:text-sm">
                   Bulk regrade completed: {result.totalRegraded} answers
                   updated
                 </p>
-                <div className="space-y-1 text-xs">
+                <div className="space-y-1 text-[10px] sm:text-xs">
                   {result.results.map((r) => (
                     <div
                       key={r.submissionId}
-                      className="flex items-center justify-between"
+                      className="flex items-center justify-between gap-2"
                     >
-                      <span>
+                      <span className="truncate">
                         {r.studentName}: {r.regradedCount} answers
                       </span>
                       {r.success ? (
-                        <CheckCircle2 className="h-3 w-3 text-green-600" />
+                        <CheckCircle2 className="h-3 w-3 text-green-600 shrink-0" />
                       ) : (
-                        <AlertCircle className="h-3 w-3 text-destructive" />
+                        <AlertCircle className="h-3 w-3 text-destructive shrink-0" />
                       )}
                     </div>
                   ))}
@@ -190,8 +192,8 @@ export function BulkOperations({
 
         {/* Warning */}
         <Alert>
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="text-xs">
+          <AlertCircle className="h-3 w-3 sm:h-4 sm:w-4" />
+          <AlertDescription className="text-[10px] sm:text-xs">
             <strong>Warning:</strong> Bulk regrading will recalculate all
             scores using the latest AI grading model. AI-detected answers will
             automatically receive a 30% penalty. This operation cannot be

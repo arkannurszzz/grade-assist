@@ -39,18 +39,18 @@ export function QuestionAnalysisChart({ data }: QuestionAnalysisChartProps) {
   };
 
   return (
-    <Card>
+    <Card className="min-w-0">
       <CardHeader>
         <CardTitle className="text-base sm:text-lg">Question-Level AI Detection</CardTitle>
         <CardDescription className="text-xs sm:text-sm">
           Analisis penggunaan AI per soal - identify soal yang paling AI-prone
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="min-w-0">
         <div className="space-y-3 sm:space-y-4">
           {sortedData.map((question) => (
-            <div key={question.questionNumber} className="space-y-2">
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+            <div key={question.questionNumber} className="space-y-2 min-w-0">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 min-w-0">
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1">
                     <span className="font-semibold text-xs sm:text-sm shrink-0">
@@ -61,8 +61,8 @@ export function QuestionAnalysisChart({ data }: QuestionAnalysisChartProps) {
                       {question.aiDetected}/{question.totalAnswers} detected
                     </span>
                   </div>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground truncate">
-                    {question.questionText}...
+                  <p className="text-[10px] sm:text-xs text-muted-foreground truncate overflow-hidden">
+                    {question.questionText.substring(0, 100)}...
                   </p>
                 </div>
                 <div className="text-left sm:text-right shrink-0">

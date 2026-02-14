@@ -23,36 +23,36 @@ export function AIDetectionOverview({ data }: AIDetectionOverviewProps) {
   };
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {/* Total AI Detection */}
-      <Card>
+      <Card className="min-w-0">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">AI Detection Rate</CardTitle>
-          <AlertTriangle className={`h-4 w-4 ${riskColors[riskLevel]}`} />
+          <CardTitle className="text-xs sm:text-sm font-medium truncate min-w-0">AI Detection Rate</CardTitle>
+          <AlertTriangle className={`h-3 w-3 sm:h-4 sm:w-4 shrink-0 ${riskColors[riskLevel]}`} />
         </CardHeader>
         <CardContent>
-          <div className={`text-2xl font-bold ${riskColors[riskLevel]}`}>
+          <div className={`text-xl sm:text-2xl font-bold ${riskColors[riskLevel]}`}>
             {data.aiUsagePercentage.toFixed(1)}%
           </div>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
             {data.aiDetectedAnswers} dari {data.totalAnswers} jawaban
           </p>
         </CardContent>
       </Card>
 
       {/* Students with AI */}
-      <Card>
+      <Card className="min-w-0">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
+          <CardTitle className="text-xs sm:text-sm font-medium truncate min-w-0">
             Mahasiswa Pakai AI
           </CardTitle>
-          <Users className="h-4 w-4 text-muted-foreground" />
+          <Users className="h-3 w-3 sm:h-4 sm:w-4 shrink-0 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
+          <div className="text-xl sm:text-2xl font-bold">
             {data.studentsWithAI}
           </div>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
             {data.studentsWithAIPercentage.toFixed(1)}% dari{" "}
             {data.gradedSubmissions} mahasiswa
           </p>
@@ -60,32 +60,32 @@ export function AIDetectionOverview({ data }: AIDetectionOverviewProps) {
       </Card>
 
       {/* Average Confidence */}
-      <Card>
+      <Card className="min-w-0">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
+          <CardTitle className="text-xs sm:text-sm font-medium truncate min-w-0">
             Avg Confidence Score
           </CardTitle>
-          <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 shrink-0 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
+          <div className="text-xl sm:text-2xl font-bold">
             {(data.averageConfidence * 100).toFixed(1)}%
           </div>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
             Tingkat kepercayaan AI detection
           </p>
         </CardContent>
       </Card>
 
       {/* Total Submissions */}
-      <Card>
+      <Card className="min-w-0">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Dinilai</CardTitle>
-          <FileText className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-xs sm:text-sm font-medium truncate min-w-0">Total Dinilai</CardTitle>
+          <FileText className="h-3 w-3 sm:h-4 sm:w-4 shrink-0 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{data.gradedSubmissions}</div>
-          <p className="text-xs text-muted-foreground mt-1">
+          <div className="text-xl sm:text-2xl font-bold">{data.gradedSubmissions}</div>
+          <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
             dari {data.totalSubmissions} submission
           </p>
         </CardContent>
